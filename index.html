@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a1714"><title>AgroControl | Gestão Inteligente</title>
+<link rel="stylesheet" href="styles.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+ <div class="brand"><div class="brand-icon">✳</div><div><strong>agro<span>control</span></strong><small>GESTÃO INTELIGENTE</small></div></div>
+ <div class="side-caption">MENU PRINCIPAL</div>
+ <nav id="nav"><button class="nav-item active" data-page="dashboard"><span>◫</span> Visão geral</button><button class="nav-item" data-page="machines"><span>▤</span> Máquinas</button><button class="nav-item" data-page="expenses"><span>▥</span> Despesas</button><button class="nav-item" data-page="maintenance"><span>⚒</span> Manutenções</button><button class="nav-item" data-page="reports"><span>▧</span> Relatórios</button></nav>
+ <div class="sidebar-bottom"><div class="status"><span class="pulse"></span> Ambiente demonstrativo</div><div class="profile"><div class="avatar">AC</div><div><b>AgroControl Demo</b><small>Administrador</small></div></div></div>
+</aside>
+<div class="main-wrap"><header class="topbar"><button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">☰</button><div class="crumb">Painel <span>/</span> <strong id="crumb">Visão geral</strong></div><div class="top-actions"><span class="demo-pill">● DEMONSTRAÇÃO</span><span class="today" id="today"></span><div class="top-avatar">AC</div></div></header>
+<main class="content" id="content"></main><footer>AgroControl © 2026 · Versão demonstrativa · Dados fictícios salvos neste navegador</footer></div>
+</div>
+<div class="modal-backdrop hidden" id="modalBackdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-header"><h2 id="modalTitle">Novo registro</h2><button id="closeModal" class="icon-button" aria-label="Fechar">✕</button></div><form id="modalForm"><div class="form-grid" id="modalFields"></div><div class="modal-actions"><button type="button" class="btn ghost" id="cancelModal">Cancelar</button><button type="submit" class="btn primary">Salvar registro</button></div></form></div></div>
+<div id="toast" class="toast hidden" role="status"></div>
+</body></html>
