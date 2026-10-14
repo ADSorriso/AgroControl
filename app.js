@@ -42,6 +42,14 @@ const pending=()=>state.maintenance.filter(m=>m.status==='Pendente').length;
 const active=()=>state.machines.filter(m=>m.status==='Ativa').length;
 const costByMachine=id=>state.expenses.filter(e=>e.machineId===id).reduce((s,e)=>s+Number(e.amount),0);
 
+const thumbMap={
+  'TR-001':'assets/jd6155j.png',
+  'CO-002':'assets/caseih7250.png',
+  'PU-003':'assets/jacto3030.png',
+  'CA-004':'assets/volvo270.png',
+  'TR-005':'assets/newholland7245.png'
+};
+
 const iconMap={
   dashboard:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13h4v7H4zM10 4h4v16h-4zM16 9h4v11h-4z"/></svg>`,
   tractor:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17" cy="16.5" r="3.5"/><path d="M10 17h3m-4-9h3l2 4h4l2 3M9 8V5h5"/></svg>`,
@@ -67,8 +75,6 @@ const iconMap={
   grid:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg>`
 };
 const icon=(name,cls='')=>`<span class="${cls}">${iconMap[name]||''}</span>`;
-const machineEmoji={Trator:'🚜',Colheitadeira:'🚛',Pulverizador:'🚜',Caminhão:'🚚'};
-const machineThumbClass={Trator:'thumb-trator',Colheitadeira:'thumb-colheitadeira',Pulverizador:'thumb-pulverizador',Caminhão:'thumb-caminhao'};
 
 function installStaticIcons(){
   $$('[data-icon]').forEach(el=>{const name=el.getAttribute('data-icon');el.innerHTML=iconMap[name]||''});
@@ -78,7 +84,7 @@ function pageHero(){
   let btn='';
   if(page==='reports') btn=`<button class="btn btn-primary" id="exportCSV">${icon('export','icon-left')}${label}</button>`;
   else btn=`<button class="btn btn-primary" data-add="${action}">${icon('plus','icon-left')}${label}</button>`;
-  return `<section class="hero"><div class="hero-row"><div class="hero-copy"><div class="eyebrow">AGROCONTROL / ${escapeHtml(titleMap[page]).toUpperCase()}</div><h1>${escapeHtml(titleMap[page])}</h1><p>${escapeHtml(subtMap[page])}</p></div>${btn}</div></section>`;
+  return `<section class="hero"><div class="hero-art"></div><div class="hero-row"><div class="hero-copy"><div class="eyebrow">AGROCONTROL / ${escapeHtml(titleMap[page]).toUpperCase()}</div><h1>${escapeHtml(titleMap[page])}</h1><p>${escapeHtml(subtMap[page])}</p></div>${btn}</div></section>`;
 }
 function metric(label,value,iconName,foot){
   return `<div class="card metric"><div class="metric-head"><div class="metric-main"><div class="metric-badge">${icon(iconName)}</div><div><div class="metric-label">${label}</div><div class="metric-value">${value}</div><div class="metric-foot">${foot}</div></div></div><div class="metric-go">${icon('arrow')}</div></div></div>`;
@@ -93,7 +99,8 @@ function actionButtons(type,id){
   return `<div class="actions"><button class="small-action" data-edit="${type}:${id}">${icon('edit')}Editar</button><button class="small-action danger" data-delete="${type}:${id}">${icon('trash')}Excluir</button></div>`;
 }
 function machineCell(m){
-  return `<td><div class="item-cell"><div class="machine-thumb ${machineThumbClass[m.type]||''}">${machineEmoji[m.type]||'🚜'}</div><div><strong>${escapeHtml(m.name)}</strong><span class="sub">${escapeHtml(m.code)}</span></div></div></td>`;
+  const src=thumbMap[m.code]||thumbMap['TR-001'];
+  return `<td><div class="item-cell"><div class="machine-thumb"><img src="${src}" alt="${escapeHtml(m.name)}"></div><div><strong>${escapeHtml(m.name)}</strong><span class="sub">${escapeHtml(m.code)}</span></div></div></td>`;
 }
 function rowMachine(m){return `<tr>${machineCell(m)}<td>${escapeHtml(m.type)}</td><td>${escapeHtml(m.year)}</td><td>${Number(m.hours).toLocaleString('pt-BR')} h</td><td>${statusTag(m.status)}</td><td>${actionButtons('machine',m.id)}</td></tr>`}
 function rowExpense(e){return `<tr>${machineCell(machineOf(e.machineId)||{name:nameOf(e.machineId),type:'Trator',code:'--'})}<td>${escapeHtml(e.category)}</td><td>${date(e.date)}</td><td><strong>${money(e.amount)}</strong></td><td>${actionButtons('expense',e.id)}</td></tr>`}
@@ -115,7 +122,7 @@ function dashboard(){
 }
 function machines(){
   const arr=state.machines.filter(m=>(m.name+' '+m.type+' '+m.code).toLowerCase().includes(query.toLowerCase()));
-  return `${pageHero()}<section class="page-shell"><div class="cards">${metric('Total de equipamentos',state.machines.length,'tractor','Cadastrados')}${metric('Em operação',active(),'leaf','Status ativa')}${metric('Em manutenção',state.machines.filter(m=>m.status==='Manutenção').length,'wrench','Status manutenção')}${metric('Tipos de máquinas',new Set(state.machines.map(m=>m.type)).size,'grid','Categorias na frota')}</div><section class="panel"><div class="panel-head">${panelTitle('tractor','Frota cadastrada','Gerencie os equipamentos da propriedade.')} ${searchTools('Buscar por nome, tipo ou identificação...')}</div>${table([th('Equipamento'),th('Tipo'),th('Ano'),th('Horas'),th('Situação'),th('Ações',false)],arr.map(rowMachine))}</section></section>`;
+  return `${pageHero()}<section class="page-shell"><div class="cards">${metric('Total de equipamentos',state.machines.length,'tractor','Cadastrados')}${metric('Em operação',active(),'leaf','Status ativa')}${metric('Em manutenção',state.machines.filter(m=>m.status==='Manutenção').length,'wrench','Status manutenção')}${metric('Tipos de máquinas',new Set(state.machines.map(m=>m.type)).size,'grid','Categorias na frota')}</div><section class="panel"><div class="panel-head">${panelTitle('wallet','Frota cadastrada','Gerencie os equipamentos da propriedade.')} ${searchTools('Buscar por nome, tipo ou identificação...')}</div>${table([th('Equipamento'),th('Tipo'),th('Ano'),th('Horas'),th('Situação'),th('Ações',false)],arr.map(rowMachine))}</section></section>`;
 }
 function expenses(){
   const arr=state.expenses.filter(e=>(nameOf(e.machineId)+' '+e.category+' '+e.note).toLowerCase().includes(query.toLowerCase())).sort((a,b)=>b.date.localeCompare(a.date));
