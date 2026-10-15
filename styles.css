@@ -37,8 +37,12 @@ svg{display:block}
   linear-gradient(180deg,#06271c 0%,#022116 100%);
   color:#eff8f2;position:sticky;top:0;height:100vh;padding:14px 12px;border-right:1px solid rgba(255,255,255,.06);overflow:hidden}
 .sidebar::after{content:"";position:absolute;left:-10%;right:-10%;bottom:78px;height:220px;opacity:.16;background:repeating-radial-gradient(ellipse at 16% 100%,transparent 0 21px,rgba(98,165,118,.5) 21px 22px);pointer-events:none}
-.brand{padding:10px 8px 22px;position:relative;z-index:1}
-.brand-logo{display:block;width:100%;max-width:210px;height:auto;filter:drop-shadow(0 8px 18px rgba(0,0,0,.12))}
+.brand{display:flex;align-items:center;gap:14px;padding:14px 10px 24px;position:relative;z-index:1}
+.brand-mark{width:48px;height:48px;border-radius:16px;background:linear-gradient(180deg,#c8ef79,#a4de55);display:grid;place-items:center;color:#0f2c21;box-shadow:0 8px 20px rgba(174,226,105,.18)}
+.brand-mark svg{width:23px;height:23px;display:block}
+.brand-copy strong{display:block;font-family:Manrope,Inter,sans-serif;font-size:19px;font-weight:800;letter-spacing:-.03em;color:#fff}
+.brand-copy strong span{color:#a7ea8a}
+.brand-copy small{display:block;margin-top:5px;font-size:10px;color:#9db2aa;font-weight:800;letter-spacing:.34em}
 .side-caption{margin:6px 14px 10px;font-size:11px;color:#7fa093;font-weight:800;letter-spacing:.23em;position:relative;z-index:1}
 #nav{display:grid;gap:8px;position:relative;z-index:1}
 .nav-item{height:52px;width:100%;display:flex;align-items:center;gap:13px;padding:0 16px;border-radius:16px;border:1px solid transparent;background:transparent;color:#dfede6;font-size:14px;font-weight:700;text-align:left;transition:.2s ease}
