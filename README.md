@@ -20,3 +20,6 @@ Este é um protótipo **sem servidor, sem login e sem banco de dados online**. N
 
 ## Próxima etapa
 Validar com potenciais clientes usando informações fictícias. Após validar, planejar autenticação, permissões por fazenda, banco Supabase, política de backups e hospedagem comercial.
+
+
+Correção da marca: folha vetorial SVG incorporada diretamente em index.html; sem imagem fotográfica, mantendo a área de 48×48 px no topo da barra lateral.
